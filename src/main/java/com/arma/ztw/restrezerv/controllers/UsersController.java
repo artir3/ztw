@@ -1,6 +1,7 @@
 package com.arma.ztw.restrezerv.controllers;
 
 import com.arma.ztw.restrezerv.models.Users;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -8,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@Api(value = "users")
 public class UsersController {
 
     @GetMapping(value = "")
