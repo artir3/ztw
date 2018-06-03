@@ -1,22 +1,21 @@
-package com.arma.ztw.restrezerv.models;
+package com.arma.ztw.restrezerv.services.users;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "Users")
 public class Users implements Serializable {
 
     @Id
     @Column
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(columnDefinition = "text")
@@ -34,11 +33,4 @@ public class Users implements Serializable {
     @Column(columnDefinition = "text")
     private String password;
 
-    public Users(String name, String surname, String email, String city, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.city = city;
-        this.password = password;
-    }
 }
