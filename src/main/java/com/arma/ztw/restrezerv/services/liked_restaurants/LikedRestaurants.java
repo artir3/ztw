@@ -2,7 +2,10 @@ package com.arma.ztw.restrezerv.services.liked_restaurants;
 
 import com.arma.ztw.restrezerv.services.client.Client;
 import com.arma.ztw.restrezerv.services.restaurant.Restaurant;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;

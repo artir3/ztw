@@ -5,7 +5,10 @@ import com.arma.ztw.restrezerv.services.employee.Employee;
 import com.arma.ztw.restrezerv.services.liked_restaurants.LikedRestaurants;
 import com.arma.ztw.restrezerv.services.localization.Localization;
 import com.arma.ztw.restrezerv.services.table.Tables;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;

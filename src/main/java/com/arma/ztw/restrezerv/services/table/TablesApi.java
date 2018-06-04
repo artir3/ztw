@@ -1,8 +1,6 @@
 package com.arma.ztw.restrezerv.services.table;
 
 import com.arma.ztw.restrezerv.services.RestApi;
-import com.arma.ztw.restrezerv.services.users.Users;
-import com.arma.ztw.restrezerv.services.users.UsersDTO;
 import io.swagger.annotations.Api;
 import io.swagger.models.Model;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -24,25 +25,16 @@ public class RestrezervApplication {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-//                .apis(RequestHandlerSelectors.basePackage("com.arma.ztw.restrezerv.controllers"))
-//                .apis(RequestHandlerSelectors.any())
                 .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
                 .paths(PathSelectors.any())
-//                .paths(regex("/users.*"))
                 .build()
                 .pathMapping("/")
-//                .apiInfo(metaData())
-//                .useDefaultResponseMessages(false)
-                ;
+                .apiInfo(metaData());
     }
 
     private ApiInfo metaData(){
-        return new ApiInfo(
-                "Spring Boot REST API",
-                "Spring Boot REST API for restrezerv",
-                "1.0",
-                "Terms of service",
-                new Contact("Artur Markowski", "test", "markowski.artur@outlook.com").toString(),
-                "sure","http://sure.sure");
+        ApiInfo info = new ApiInfoBuilder().title("ResRezerv").description("Aplication to reservate tables in restaurants").version("0.1")
+                .contact(new Contact("Artur Markowski", "", "markowski.artur@outlook.com")).build();
+        return info;
     }
 }

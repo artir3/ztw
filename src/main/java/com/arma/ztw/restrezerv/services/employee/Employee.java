@@ -1,7 +1,10 @@
 package com.arma.ztw.restrezerv.services.employee;
 
 import com.arma.ztw.restrezerv.services.users.Users;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
