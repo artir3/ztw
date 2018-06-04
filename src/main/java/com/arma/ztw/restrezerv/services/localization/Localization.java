@@ -1,4 +1,4 @@
-package com.arma.ztw.restrezerv.services.users;
+package com.arma.ztw.restrezerv.services.localization;
 
 import lombok.*;
 
@@ -10,8 +10,8 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users")
-public class Users implements Serializable {
+@Table(name = "localization")
+public class Localization implements Serializable {
 
     @Id
     @Column
@@ -19,18 +19,18 @@ public class Users implements Serializable {
     private Long id;
 
     @Column(columnDefinition = "text")
-    private String name;
-
-    @Column(columnDefinition = "text")
-    private String surname;
-
-    @Column(columnDefinition = "text")
-    private String email;
-
-    @Column(columnDefinition = "text")
     private String city;
 
     @Column(columnDefinition = "text")
-    private String password;
+    private String street;
+
+    @Column(columnDefinition = "text")
+    private String homeNo;
+
+    @Column(columnDefinition = "text")
+    private String latitude;
+
+    @Column(columnDefinition = "text")
+    private String longitude;
 
 }
