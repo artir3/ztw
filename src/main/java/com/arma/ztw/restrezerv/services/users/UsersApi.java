@@ -8,27 +8,34 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 @Api(value = "users")
-public class UsersApi implements RestApi<Users> {
+public class UsersApi implements RestApi<UsersDTO> {
 
     @Autowired
     UsersRepository repository;
 
     @GetMapping(value = "")
-    public Iterable<Users> list(Model model) {
-        return repository.findAll();
+    public Iterable<UsersDTO> list(Model model) {
+        List<UsersDTO> res = new ArrayList<>();
+        for (Users users : repository.findAll()) {
+            res.add(userToDTO(users));
+        }
+        return res;
     }
 
     @GetMapping(value = "{id}")
-    public Users getById(@PathVariable("id") Long id, Model model) {
-        return repository.findById(id).get();
+    public UsersDTO getById(@PathVariable("id") Long id, Model model) {
+        return userToDTO(repository.findById(id).get());
     }
 
     @PostMapping(value = "")
-    public ResponseEntity save(@RequestBody Users users) {
-        repository.save(users);
+    public ResponseEntity save(@RequestBody UsersDTO users) {
+        repository.save(usersToDao(users));
         if (users == null) {
             return new ResponseEntity("User was not saved", HttpStatus.BAD_REQUEST);
         }
@@ -36,14 +43,9 @@ public class UsersApi implements RestApi<Users> {
     }
 
     @PutMapping(value = "{id}")
-    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody Users users) {
-        Users user = repository.findById(id).get();
-        user.setName(users.getName());
-        user.setSurname(users.getSurname());
-        user.setCity(users.getCity());
-        user.setEmail(users.getEmail());
-        user.setPassword(users.getPassword());
-        repository.save(user);
+    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody UsersDTO users) {
+        users.setId(id);
+        repository.save(usersToDao(users));
         return new ResponseEntity("User updated successfully", HttpStatus.OK);
     }
 
@@ -51,5 +53,29 @@ public class UsersApi implements RestApi<Users> {
     public ResponseEntity delete(@PathVariable("id") Long id) {
         repository.deleteById(id);
         return new ResponseEntity("User deleted successfully", HttpStatus.OK);
+    }
+
+    private Users usersToDao(@RequestBody UsersDTO users) {
+        Users user = null;
+        if (users.getId() == null) {
+            user = new Users();
+        } else repository.findById(users.getId()).get();
+        user.setName(users.getName());
+        user.setSurname(users.getSurname());
+        user.setCity(users.getCity());
+        user.setEmail(users.getEmail());
+//        user.setPassword(users.getPassword());
+        return user;
+    }
+
+    private UsersDTO userToDTO(Users users) {
+        UsersDTO user = new UsersDTO();
+        user.setId(users.getId());
+        user.setName(users.getName());
+        user.setSurname(users.getSurname());
+        user.setCity(users.getCity());
+        user.setEmail(users.getEmail());
+//        user.setPassword(users.getPassword());
+        return user;
     }
 }

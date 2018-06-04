@@ -1,6 +1,8 @@
 package com.arma.ztw.restrezerv.services.table;
 
 import com.arma.ztw.restrezerv.services.RestApi;
+import com.arma.ztw.restrezerv.services.users.Users;
+import com.arma.ztw.restrezerv.services.users.UsersDTO;
 import io.swagger.annotations.Api;
 import io.swagger.models.Model;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,27 +10,34 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 @RequestMapping("/table")
 @Api(value = "table")
-public class TablesApi implements RestApi<Tables> {
+public class TablesApi implements RestApi<TablesDTO> {
 
     @Autowired
     TablesRepository repository;
 
     @GetMapping(value = "")
-    public Iterable<Tables> list(Model model) {
-        return repository.findAll();
+    public Iterable<TablesDTO> list(Model model) {
+        List<TablesDTO> res = new ArrayList<>();
+        for (Tables tables: repository.findAll()) {
+            res.add(copyToDTO(tables));
+        }
+        return res;
     }
 
     @GetMapping(value = "{id}")
-    public Tables getById(@PathVariable("id") Long id, Model model) {
-        return repository.findById(id).get();
+    public TablesDTO getById(@PathVariable("id") Long id, Model model) {
+        return copyToDTO(repository.findById(id).get());
     }
 
     @PostMapping(value = "")
-    public ResponseEntity save(@RequestBody Tables tables) {
-        repository.save(tables);
+    public ResponseEntity save(@RequestBody TablesDTO tables) {
+        repository.save(copyToDAO(tables));
         if (tables == null) {
             return new ResponseEntity("Tables was not saved", HttpStatus.BAD_REQUEST);
         }
@@ -36,14 +45,9 @@ public class TablesApi implements RestApi<Tables> {
     }
 
     @PutMapping(value = "{id}")
-    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody Tables tables) {
-        Tables dao = repository.findById(id).get();
-        dao.setExtendable(tables.getExtendable());
-        dao.setNaxNoSites(tables.getNaxNoSites());
-        dao.setNoSites(tables.getNoSites());
-        dao.setOpen(tables.getOpen());
-        dao.setType(tables.getType());
-        repository.save(dao);
+    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody TablesDTO tables) {
+        tables.setId(id);
+        repository.save(copyToDAO(tables));
         return new ResponseEntity("Tables updated successfully", HttpStatus.OK);
     }
 
@@ -51,5 +55,29 @@ public class TablesApi implements RestApi<Tables> {
     public ResponseEntity delete(@PathVariable("id") Long id) {
         repository.deleteById(id);
         return new ResponseEntity("Tables deleted successfully", HttpStatus.OK);
+    }
+
+    private Tables copyToDAO(@RequestBody TablesDTO tables) {
+        Tables dao = null;
+        if (tables.getId() == null) {
+            tables = new TablesDTO();
+        } dao = repository.findById(tables.getId()).get();
+        dao.setExtendable(tables.getExtendable());
+        dao.setNaxNoSites(tables.getNaxNoSites());
+        dao.setNoSites(tables.getNoSites());
+        dao.setOpen(tables.getOpen());
+        dao.setType(tables.getType());
+        return dao;
+    }
+
+    private TablesDTO copyToDTO(Tables tables) {
+        TablesDTO dao = new TablesDTO();
+        dao.setId(tables.getId());
+        dao.setExtendable(tables.getExtendable());
+        dao.setNaxNoSites(tables.getNaxNoSites());
+        dao.setNoSites(tables.getNoSites());
+        dao.setOpen(tables.getOpen());
+        dao.setType(tables.getType());
+        return dao;
     }
 }
