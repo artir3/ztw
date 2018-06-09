@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/client")
 @Api(value = "Client Api")
 public class ClientApi implements RestApi<Client> {

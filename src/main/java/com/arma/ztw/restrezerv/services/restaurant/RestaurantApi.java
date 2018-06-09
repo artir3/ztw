@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/restaurant")
+@CrossOrigin(origins = "http://localhost:3000")
 @Api(value = "restaurant")
 public class RestaurantApi implements RestApi<Restaurant> {
 
